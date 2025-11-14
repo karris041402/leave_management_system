@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Leave Management System</title>
+    <!-- Tailwind CSS CDN for simplicity in this environment -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Custom styles to replicate the dense table look */
+      .leave-table th,
+      .leave-table td {
+        border: 1px solid #2b2d2e; /* gray-300 */
+        padding: 2px;
+        text-align: center;
+        font-size: 0.65rem; /* text-xs equivalent or smaller */
+        line-height: 1;
+      }
+      .leave-table th {
+        background-color: #f3f4f6; /* gray-100 */
+        font-weight: bold;
+      }
+      .leave-table .day-cell {
+        width: 20px;
+        height: 20px;
+        padding: 0;
+      }
+      .leave-table .day-cell select {
+        width: 100%;
+        height: 100%;
+        border: none;
+        text-align: center;
+        font-size: 0.65rem;
+        background-color: transparent;
+        padding: 0 1px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+      }
+      .leave-table tbody {
+        border: 2px solid black;
+      }
+
+      .leave-table thead {
+        border: 2px solid black;
+      }
+      .vl-header {
+        background-color: #a7daa7 !important;
+      } /* Light Green */
+      .sl-header {
+        background-color: #afcbd4 !important;
+      } /* Light Blue */
+    </style>
+  </head>
+  <body class="bg-gray-100 font-sans">
+    <div id="app" class="flex h-screen">
+      <!-- Sidebar -->
+      <aside class="w-64 bg-gray-800 text-white flex flex-col">
+        <div class="p-4 text-xl font-bold border-b border-gray-700">
+          Leave System
+        </div>
+        <nav class="flex-1 p-4 space-y-2">
+          <a
+            href="#"
+            id="menu-encode-leave"
+            class="block p-2 rounded hover:bg-gray-700 transition duration-150 bg-gray-700"
+          >
+            Encode Leave
+          </a>
+          <!-- Other menu items can be added here -->
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1 p-6 overflow-y-auto">
+        <h1 class="text-2xl font-semibold mb-6">Leave Encoding Module</h1>
+
+        <!-- Control Panel -->
+        <div
+          id="control-panel"
+          class="bg-white p-4 rounded-lg shadow-md mb-6 flex space-x-4"
+        >
+          <div>
+            <label
+              for="employee-select"
+              class="block text-sm font-medium text-gray-700"
+              >Employee Name</label
+            >
+            <select
+              id="employee-select"
+              class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            >
+              <!-- Options populated by JS -->
+            </select>
+          </div>
+          <div>
+            <label
+              for="month-select"
+              class="block text-sm font-medium text-gray-700"
+              >Month</label
+            >
+            <input
+              type="month"
+              id="month-select"
+              value="2024-09"
+              class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            />
+          </div>
+          <div class="flex items-end space-x-2">
+            <button
+              id="btn-render-month"
+              class="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 transition duration-150"
+            >
+              Render Month
+            </button>
+            <button
+              id="btn-append-month"
+              class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition duration-150"
+            >
+              Append Month
+            </button>
+            <button
+              id="btn-save-all"
+              class="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-md hover:bg-green-700 transition duration-150"
+            >
+              Save All
+            </button>
+          </div>
+        </div>
+
+        <!-- Leave Table Container -->
+        <div
+          id="leave-table-container"
+          class="bg-white p-4 rounded-lg shadow-md overflow-x-auto"
+        >
+          <!-- Table will be rendered here by JS -->
+        </div>
+      </main>
+    </div>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>

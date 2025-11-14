@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles for the leave table */
+.leave-table {
+    @apply w-full border-collapse text-xs;
+}
+
+.leave-table th, .leave-table td {
+    @apply border border-gray-300 p-1 text-center;
+}
+
+.leave-table th {
+    @apply bg-gray-100 font-bold;
+}
+
+.leave-table .day-cell {
+    @apply w-6 h-6 p-0;
+}
+
+.leave-table .day-cell select {
+    @apply w-full h-full border-none text-center text-xs bg-transparent focus:ring-0 focus:border-transparent;
+}
