@@ -73,7 +73,7 @@ function generateTableHeaderHTML() {
                 <th rowspan="2" class="vl-header">ABSENCE Undertime W/Pay</th>
                 <th rowspan="2" class="vl-header">BALANCE</th>
                 <th rowspan="2" class="vl-header">ABSENCE Undertime W/o Pay</th>
-                
+
                 <!-- SL Sub-headers -->
                 <th rowspan="2" class="sl-header">TOTAL BALANCE SL</th>
                 <th rowspan="2" class="sl-header">EARNED</th>
@@ -97,7 +97,6 @@ function generateTableHeaderHTML() {
  * Generates the HTML for a single row of the leave table.
  * @param {string} monthYear 'YYYY-MM'
  * @param {object} records { day: leaveTypeId, ... }
- * @param {object} summary { vl_balance, sl_balance, ... }
  * @returns {string} HTML string for the table body row.
  */
 
@@ -105,10 +104,10 @@ function generateTableBodyRowHTML(monthYear, records = {}, summary = {}) {
     const daysInMonth = getDaysInMonth(monthYear);
     const [year, month] = monthYear.split('-').map(Number);
     const monthName = new Date(year, month - 1).toLocaleString('default', { month: 'long', year: 'numeric' });
-    
+
     // Get the day of week for the 1st day of the month
     const firstDay = new Date(year, month - 1, 1).getDay(); // 0 = Sunday, 1 = Monday, etc.
-    
+
     // Generate days of week based on the first day
     const daysOfWeek = [];
     const dayNames = ['SU', 'M', 'T', 'W', 'TH', 'F', 'SA'];
@@ -117,7 +116,7 @@ function generateTableBodyRowHTML(monthYear, records = {}, summary = {}) {
         daysOfWeek.push(dayNames[dayIndex]);
     }
 
-    const leaveTypeOptions = leaveTypes.map(type => 
+    const leaveTypeOptions = leaveTypes.map(type =>
         `<option value="${type.id}" data-code="${type.code}" data-points="${type.point_value}">${type.code}</option>`
     ).join('');
 
@@ -125,7 +124,7 @@ function generateTableBodyRowHTML(monthYear, records = {}, summary = {}) {
         const day = i + 1;
         const isDayInMonth = day <= daysInMonth;
         const selectedLeaveTypeId = records[day] || '';
-        
+
         let content = '';
         let classes = 'day-cell';
 
@@ -141,13 +140,11 @@ function generateTableBodyRowHTML(monthYear, records = {}, summary = {}) {
         return `<td class="${classes}" data-day="${day}" data-month-year="${monthYear}">${content}</td>`;
     }).join('');
 
-    // Placeholder values for summary columns
-    const vlBalance = summary.vacation_leave_balance || 0.000;
-    const slBalance = summary.sick_leave_balance || 0.000;
-    
+
+
     // Format period as MM/DD-DD/YYYY
     const periodStart = `${String(month).padStart(2, '0')}/01-${String(daysInMonth).padStart(2, '0')}/${year}`;
-    
+
     // Format particular date as M/D/YYYY (last day of month)
     const particularDate = `${month}/${daysInMonth}/${year}`;
 
@@ -175,7 +172,7 @@ function generateTableBodyRowHTML(monthYear, records = {}, summary = {}) {
                 <th class="sl-header"></th>
                 <th></th>
             </tr>
-            
+
             <!-- Days of Week Row -->
             <tr>
                 <th></th>
@@ -198,7 +195,7 @@ function generateTableBodyRowHTML(monthYear, records = {}, summary = {}) {
                 <th class="sl-header"></th>
                 <th></th>
             </tr>
-            
+
             <!-- Date Numbers Row -->
             <tr>
                 <th></th>
@@ -222,7 +219,7 @@ function generateTableBodyRowHTML(monthYear, records = {}, summary = {}) {
                 <th class="sl-header"></th>
                 <th></th>
             </tr>
-            
+
             <!-- Data Row (with dropdowns) -->
             <tr>
                 <td>${periodStart}</td>
@@ -230,37 +227,44 @@ function generateTableBodyRowHTML(monthYear, records = {}, summary = {}) {
                 ${dayCells}
                 <!-- Placeholder for VL/SL totals and balances -->
                 <td class="vl-total">0.000</td>
-                <td class="vl-earned">0.000</td>
-                <td class="vl-abs-w-pay-m">0.000</td>
-                <td class="vl-abs-w-pay-hr">0.000</td>
+                <td class="vl-header"></td>
+
+                <td class="vl-abs-w-pay-m">
+                    <input type="number" class="vl-auto-input input-vl-hours" min="0" value="" />
+                </td>
+
+                <td class="vl-abs-w-pay-hr">
+                    <input type="number" class="vl-auto-input input-vl-minutes" min="0" value="" />
+                </td>
+
                 <td class="vl-equiv-hr">0.000</td>
                 <td class="vl-equiv-min">0.000</td>
                 <td class="vl-equiv-total">0.000</td>
                 <td class="vl-abs-w-pay-total">0.000</td>
-                <td class="vl-balance">${vlBalance.toFixed(3)}</td>
+                <td class="vl-header"></td>
                 <td class="vl-abs-wo-pay">0.000</td>
                 <td class="sl-total">0.000</td>
                 <td class="sl-earned">0.000</td>
                 <td class="sl-abs-w-pay">0.000</td>
-                <td class="sl-balance">${slBalance.toFixed(3)}</td>
+                <td class="sl-balance"></td>
                 <td class="sl-abs-wo-pay">0.000</td>
                 <td></td> <!-- Remarks -->
             </tr>
-            
+
             <!-- Extra Row (with particular date highlighted) -->
             <tr>
                 <td></td>
                 <td class="bg-yellow-200">${particularDate}</td>
                 ${Array.from({ length: 31 }, () => `<td></td>`).join('')}
                 <td class="vl-header"></td>
+                <td class="vl-earned">1.25</td>
                 <td class="vl-header"></td>
                 <td class="vl-header"></td>
                 <td class="vl-header"></td>
                 <td class="vl-header"></td>
                 <td class="vl-header"></td>
                 <td class="vl-header"></td>
-                <td class="vl-header"></td>
-                <td class="vl-header"></td>
+                <td class="vl-balance"></td>
                 <td class="vl-header"></td>
                 <td class="sl-header"></td>
                 <td class="sl-header"></td>
@@ -298,14 +302,25 @@ function renderLeaveTable() {
     // Attach event listeners to new dropdowns
     document.querySelectorAll('.day-dropdown').forEach(dropdown => {
         dropdown.addEventListener('change', handleLeaveChange);
+
         // Set initial value
         const monthYear = dropdown.dataset.monthYear;
         const day = dropdown.dataset.day;
         const record = leaveRecords[monthYear]?.records;
+
         if (record && record[day]) {
             dropdown.value = record[day];
         }
     });
+
+    // Attach input listeners for VL Hours/Minutes computation
+    document.querySelectorAll(".input-vl-hours, .input-vl-minutes").forEach(input => {
+        input.addEventListener("input", (e) => {
+            const row = e.target.closest("tr");
+            computeVLEquivalent(row);
+        });
+    });
+
 
     // Initial calculation
     calculateAllTotals();
@@ -376,6 +391,26 @@ function calculateAllTotals() {
     }
 }
 
+
+function computeVLEquivalent(row) {
+    const hours = parseFloat(row.querySelector(".input-vl-hours")?.value || 0);
+    const minutes = parseFloat(row.querySelector(".input-vl-minutes")?.value || 0);
+
+    // 1 hour = 0.125 day
+    const hourDay = hours * 0.125;
+
+    // 60 minutes = 0.125 day → 1 minute = 0.0020833 day
+    const minuteDay = minutes * (0.125 / 60);
+
+    row.querySelector(".vl-equiv-hr").textContent = hourDay.toFixed(3);
+    row.querySelector(".vl-equiv-min").textContent = minuteDay.toFixed(3);
+    row.querySelector(".vl-equiv-total").textContent = (hourDay + minuteDay).toFixed(3);
+
+    // Equivalent total affects: Absence Undertime W/Pay (Total)
+    row.querySelector(".vl-abs-w-pay-total").textContent = (hourDay + minuteDay).toFixed(3);
+}
+
+
 // --- API Interaction Functions ---
 
 async function fetchAllUsers() {
@@ -407,7 +442,7 @@ async function fetchLeaveTypes() {
 async function fetchMonthlyRecords(userId, monthYear) {
     try {
         const data = await apiFetch(`${API_BASE_URL}/leaves/user/${userId}/month/${monthYear}`);
-        
+
         // Transform API records into the frontend format { day: leaveTypeId, ... }
         const records = data.records.reduce((acc, record) => {
             const day = new Date(record.leave_date).getDate();
@@ -513,7 +548,7 @@ async function initApp() {
     try {
         // Use the setup endpoint to seed the database first (only once)
         await apiFetch(`${API_BASE_URL}/setup/seed`, { method: 'POST' });
-        
+
         // Login with the test admin user
         const loginData = await apiFetch(`${API_BASE_URL}/auth/login`, {
             method: 'POST',

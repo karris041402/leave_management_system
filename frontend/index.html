@@ -50,6 +50,27 @@
       .sl-header {
         background-color: #afcbd4 !important;
       } /* Light Blue */
+      /* Default state: input fills the entire cell, no border */
+
+      .vl-auto-input {
+          width: 100%;
+          border: none;
+          background: transparent;
+          text-align: center;
+          font-size: 10px;
+          padding: 0;
+      }
+
+      /* When user clicks to edit: shrink + no border */
+      .vl-auto-input:focus {
+          width: 50px; /* the size you want */
+          background: white;
+          border: none;
+          outline: none;
+          margin: 0 auto;
+      }
+
+
     </style>
   </head>
   <body class="bg-gray-100 font-sans">
